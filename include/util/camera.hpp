@@ -49,10 +49,11 @@ public:
     C::Info get_info(){return {pos, lookat, up};}
 	void processKeyboard(CameraMovement direction, f32 deltaTime) {
 		f32 velocity = speed * deltaTime;
+        glm::vec3 dir = {lookat[0], 0, lookat[2]};
 		if (direction == FORWARD) {
-			pos += lookat * velocity;
+			pos += dir * velocity;
 		} else if (direction == BACKWARD) {
-			pos -= lookat * velocity;
+			pos -= dir * velocity;
 		} else if (direction == LEFT) {
 			pos -= right * velocity;
 		} else if (direction == RIGHT) {
@@ -88,6 +89,11 @@ public:
     glm::vec3& get_position() {
         return pos;
     }
+
+    glm::vec3& get_dir() {
+        return lookat;
+    }
+
 private:
 	void updateVectors() {
 		glm::vec3 temp;

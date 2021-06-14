@@ -7,10 +7,8 @@ in vec3 Normal;
 uniform vec3 xyz;      // light position
 uniform vec3 xyzColor; // light color
 uniform vec3 xyzView;  // camera position
+uniform float u_modifier;  // materials attempt
 
-
-uniform vec3 lampPos;      // light position
-uniform vec3 lampColor;  // light color
 
 out vec4 color;
 uniform sampler2D texture1;
@@ -18,7 +16,7 @@ uniform sampler2D texture1;
 // PHONG LIGHT
 vec3 phong(vec3 pos, vec3 color,vec3 view){
 	// ambient
-	float strength = 0.6;
+	float strength = u_modifier;
 	vec3 ambient   = strength * color;
 
 	// diffuse
@@ -39,7 +37,7 @@ vec3 phong(vec3 pos, vec3 color,vec3 view){
 }
 
 void main() {
-    vec3 result = phong(xyz, xyzColor, xyzView) * phong(lampPos, lampColor, xyzView) * vec3(texture(texture1, o_texCoord));
+    vec3 result = phong(xyz, xyzColor, xyzView) * vec3(texture(texture1, o_texCoord));
 	color = vec4(result, 1.0);
 	// color = vec4(ambient*fragColor, 1.0); // solo ambient light
 }

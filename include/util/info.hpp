@@ -25,6 +25,7 @@ namespace Cam {
 namespace MC {
     bool toggle_wireframe = false;
     bool shifting = false; 
+    bool Superman = false;
     bool pressed_cursor = false, CURSOR_ON = false;
 
 

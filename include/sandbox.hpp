@@ -97,13 +97,13 @@ public:
         //rendering
 		glClearColor(bg.R(),bg.G(),bg.B(), 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        world->on_update(Cam::instance.get_position(), sun, Cam::instance.getViewM4());
+        world->on_update(Cam::instance.get_position(), sun, Cam::instance.getViewM4(), Cam::instance.get_dir() );
 
         glfwGetFramebufferSize(window, &Screen::W, &Screen::H);
 		glfwSwapBuffers(window);
     }
     void on_gui_update(){
-        std::cout << " " << FPS << "\n";
+        std::cout << " " << FPS << " in [" << Cam::instance.get_position()[0] << ", " << Cam::instance.get_position()[2] << "]\n";
     }
 
 private:

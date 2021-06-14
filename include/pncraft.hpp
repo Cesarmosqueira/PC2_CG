@@ -37,6 +37,7 @@ private:
 
     f32 max_h;
     ui32 current_frame = 0;
+    f32 X = 0, Z = 0;
     std::vector<std::vector<i32>> maze;
 public:
     World() : 
@@ -93,7 +94,22 @@ public:
         }
         return nullptr;
     }
-    void on_update(const glm::vec3& pp, Sun*& sun, const glm::mat4& camView) {
+    void undo_move(const glm::vec3& pp, const glm::vec3& dir){
+        std::cout << "UNDPOING UNDOING\n";
+        std::cout << "UNDPOING UNDOING\n";
+        std::cout << "UNDPOING UNDOING\n";
+    }
+    void on_update(const glm::vec3& pp, Sun*& sun, const glm::mat4& camView, glm::vec3 dir) {
+        if (pp[0] != X || pp[2] != Z) {
+            //update xChunk and zChunk
+            //
+            X = pp[0];
+            Z = pp[2];
+        }
+        if(round(X) == 1 && round(Z) == 1 || int(X) % 4 == 0 && int(Z) % 6 == 0){
+            lightColor = {0.9f, 0.1f, 0.05f};
+        }
+
         current_frame =  (current_frame + 1) % 6000;
         block_shader->useProgram();
         if(pp[1] > CHUNK_SIDE-5){
@@ -103,10 +119,8 @@ public:
         sun->X() = 2.0f * (cos(current_frame) + sin(current_frame));
 		sun->Z() = 2.0f * (cos(current_frame) - sin(current_frame));
         block_shader->setVec3("xyz", sun->X(), sun->Y(), sun->Z());
-        block_shader->setVec3("lampPos", CHUNK_SIDE/2.0f, CHUNK_HEIGHT-1, CHUNK_SIDE/2.0f);
 
         block_shader->setVec3("xyzColor", lightColor);
-        block_shader->setVec3("lampColor", {0.8f, 0.85f, 0.02f});
 
         block_shader->setMat4("xyzView", camView);
         
@@ -161,6 +175,11 @@ private:
     void block_draw_call(Block*** data, const i32& x, const i32&y, const i32& z) {
         if ( data[y][x][z].is_solid() ) {
             ui8 code = data[y][x][z].get_TexCode();
+            if(code == 'S'){
+                block_shader->setFloat("u_modifier", 0.2f); 
+            } else {
+                block_shader->setFloat("u_modifier", 0.6f); 
+            }
             if(code != 'G'){
                 glBindTexture(GL_TEXTURE_2D, code_to_tex(code));
 

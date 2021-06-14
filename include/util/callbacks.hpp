@@ -29,25 +29,30 @@ void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		//position -= glm::normalize(glm::cross(front, up)) * speed;
         Cam::instance.processKeyboard(RIGHT, MC::deltaTime);
-	}
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+	} 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && MC::Superman) {
 		//position[1] -= speed;
         Cam::instance.processKeyboard(DOWN, MC::deltaTime);
 	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && MC::Superman) {
 		//position[1] += speed;
         Cam::instance.processKeyboard(UP, MC::deltaTime);
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_CAPS_LOCK) == GLFW_PRESS) {
+		//position[1] += speed;
+        MC::Superman = !MC::Superman;
+    }
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
         MC::toggle_wireframe = true;
     }
-    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS && MC::Superman) {
         MC::shifting = true;
     }
-    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE) {
+    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE && MC::Superman) {
         MC::shifting = false;
     }
 
