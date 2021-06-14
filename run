@@ -1,0 +1,4 @@
+mkdir bin
+rm -r bin/program
+make
+./bin/program
