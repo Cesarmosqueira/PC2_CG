@@ -1,4 +1,5 @@
 # PC2-CG
+Solución de la PC2 de computación gráfica UPC. 2021-1 <br>
 <b>To exec:</b>
 ```bash
 git clone https://github.com/Cesarmosqueira/PC2_CG.git
